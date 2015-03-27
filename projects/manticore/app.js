@@ -237,6 +237,8 @@ core.on('mach', function(envelope, header, payload) {
 					returnStatus = true;
 					core.records.push(new_record);
 					core.reply('ack', envelope, {status: returnStatus});
+					if (!dst) dst = header.ip;
+					console.log(dst);
 					request.post('http://localhost:8081/addRequester', {form: {
 						id: payload.data,
 						port: payload.port,
