@@ -1,3 +1,4 @@
+
 /**
  * Constants
  */
@@ -18,6 +19,8 @@ var util = require('util'),		// extend the Core to be an EventEmitter
 var _ = require("underscore");
 var fs = require('fs');
 var os = require('os');
+var now = require("performance-now")
+
 
 var Node = require('./node.js');		// Node object
 var Sensor = require('./sensor.js');	// Sensor object
@@ -82,6 +85,7 @@ var self = module.exports = new Core();
  * [TODO] use async.series to bind all sockets and properly 'emit' the ready event
  */
 Core.prototype.init = function() {
+	var start = now()
 	console.log('+[CORE]\tCore starting on '+this.name+' at '+Date());
 	console.log('+[CORE]\tCore id '+this.uuid);
 	// bind local UDP socket
@@ -110,6 +114,9 @@ Core.prototype.init = function() {
 	console.log('+[CORE]\tDetect sensors');
 	this.detectSensors();
 	this.emit('ready');
+	var end = now()
+	console.log("Time for init (ms)") 
+	console.log((end-start).toFixed(3))
 };
 
 /**
@@ -214,6 +221,8 @@ self.udp.on('message', function(buffer, rinfo) {
  * (mDNS browser event)
  */
 self.browser.on('serviceUp', function(service) {
+	var start = now()
+	
 	console.log('+[mDNS]\tService up: '+service.name+' at '+service.addresses+' ('+service.networkInterface+')');
 
 	if(self.findNodeById(service.txtRecord.id) === false)
@@ -238,6 +247,9 @@ self.browser.on('serviceUp', function(service) {
 	else {
 		console.log('![CORE]\tNode id '+service.txtRecord.id+' is already present');
 	}
+	var end = now()
+	console.log("Time for detecting a new node and adding to the network(ms)") 
+	console.log((end-start).toFixed(3))
 });
 
 /**
@@ -279,6 +291,8 @@ Core.prototype.toString = function() {
  * closing sockets and exiting
  */
 Core.prototype.close = function(exit) {
+	var start = now()
+
 	console.log('[CORE]\tClosing');
 	this.browser.stop();
 	this.advertiser.stop();
@@ -288,6 +302,9 @@ Core.prototype.close = function(exit) {
 	this.udp.close();
 	if (typeof exit === "undefined")
 		process.exit();
+	var end = now()
+	console.log("Time for closing") 
+	console.log((end-start).toFixed(3))
 };
 
 /**
@@ -298,10 +315,11 @@ Core.prototype.publish = function(cmd, data) {
 	this.publisher.send(JSON.stringify(this.createMessage(cmd, data)));
 };
 
-/**
+/** GOTTA STAMP THIS MESSAGE WITH TIME AND LOG 
  * Create an object representing the structure of message
  * used between cores
  * always adding name and uuid
+ * 
  * 
  * @param  {String} cmd  [type of the message]
  * @param  {?}		data [payload of the message]
@@ -312,7 +330,8 @@ Core.prototype.createMessage = function(cmd, data) {
 	return {header: h, payload: data};
 };
 
-/**
+/**GOTTA STAMP THIS MESSAGE WITH TIME AND LOG 
+ *
  * [send description]
  * @param  {[type]} dst  [description]
  * @param  {[type]} cmd  [description]
@@ -330,7 +349,11 @@ Core.prototype.send = function(dst, cmd, data) {
 	}
 };
 
+/** GOTTA STAMP THIS MESSAGE WITH TIME AND LOG **/
+
 Core.prototype.syncSend = function(dst, cmd, data, callback) {
+		var start = now()
+
 	var socket = zmq.socket('req');
 	if (dst !== null) {
 		socket.connect('tcp://'+dst+':'+MACH_PORT);
@@ -347,6 +370,9 @@ Core.prototype.syncSend = function(dst, cmd, data, callback) {
 	else {
 		throw 'send() to null IP';
 	}
+	var end = now()
+	console.log("Time for sending (ms)") 
+	console.log((end-start).toFixed(3))
 };
 
 Core.prototype.reply = function(cmd, envelope, data) {
@@ -358,8 +384,10 @@ Core.prototype.reply = function(cmd, envelope, data) {
  * Delete node when service down
  * @param  {Node[]}	nodes      list of Node objects
  * @param  {Object} service 
- */
+ /** GOTTA STAMP THIS MESSAGE WITH TIME AND LOG 
+*/
 Core.prototype.deleteDeadNode = function(service){
+	var start = now()
 	var index = null;
 	var deadNodeId = null;
 	for(var k in this.nodes){
@@ -377,6 +405,9 @@ Core.prototype.deleteDeadNode = function(service){
 	else {
 		console.log('![CORE]\tError cannot delete node '+service.name+', not found ; no harm, maybe just a duplicate \'serviceDown\' or multiple interface self-discovery');
 	}
+	var end = now()
+	console.log("Time for deleting a dead node (ms)") 
+	console.log((end-start).toFixed(3))
 	return deadNodeId;
 };
 
@@ -443,6 +474,8 @@ function createAdvertisement(uuid)  {
  * @param  {Function} callback		[description]
  */
 Core.prototype.requestResource = function (res, port, client_ip, endpoint_ip, callback) {
+	var start = now()
+
 	// Check validity of the request (port, resource)
 	var p = isValidPort(port) ? port : 16161;
 	var found = false;
@@ -477,6 +510,9 @@ Core.prototype.requestResource = function (res, port, client_ip, endpoint_ip, ca
 		var err = '![REQR] Resource '+res+' not valid';
 		callback(err, null, null);
 	}
+	var end = now()
+	console.log("Time for requesting (ms)") 
+	console.log((end-start).toFixed(3))
 };
 
 /**
@@ -485,6 +521,7 @@ Core.prototype.requestResource = function (res, port, client_ip, endpoint_ip, ca
  * @param  {Function} callback [description]
  */
 Core.prototype.releaseResource = function (res, callback) {
+	var start = now()
 	// Check Core.records if the release request is correct
 	// i.e there is a record for it
 	var correct = false;
@@ -512,6 +549,9 @@ Core.prototype.releaseResource = function (res, callback) {
 		var err = '![RELR] The release resource is not correct, record not found';
 		callback(err);
 	}
+	var end = now()
+	console.log("Time for releasing (ms)") 
+	console.log((end-start).toFixed(3))
 };
 
 function isValidPort(port) {
@@ -526,6 +566,7 @@ function isValidPort(port) {
  * Sensors detection
  */
 Core.prototype.detectSensors = function() {
+	var start = now()
 	console.log("+[DTEC] Looking for sensors");
 	var sensorsPath = '../../sensors/';
 	var list = fs.readdirSync(sensorsPath);
@@ -563,14 +604,21 @@ Core.prototype.detectSensors = function() {
 			}
 		}
 	}
+	var end = now()
+	console.log("Time for detecting a sensor") 
+	console.log((end-start).toFixed(3))
 	this.delayedPublishSensors(5000);
 };
 
 Core.prototype.publishSensors = function() {
+	var start = now()
 	if (this.sensors.length > 0) { 
 		console.log("+[SENS] Publishing "+self.sensors.length+" sensors");
 		self.publish('new_sensor', {sensors: self.sensors});
 	}
+	var end = now()
+	console.log("Time for publishing sensor (ms)") 
+	console.log((end-start).toFixed(3))
 };
 
 Core.prototype.delayedPublishSensors = function(delay) {

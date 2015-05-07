@@ -44,3 +44,5 @@ libs/oscpack/liboscpack.so.1.1.0
 *.exe
 *.out
 *.app
+
+*.log

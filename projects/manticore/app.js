@@ -12,6 +12,7 @@ var trigger = require('./trigger.js');
 var Record = require('./record.js');
 var Sensor = require('./sensor.js');
 var request = require('request');
+
 // view engine set up
 api.set('views', path.join(__dirname, 'web/views'));
 api.set('view engine', 'jade');

@@ -1,4 +1,4 @@
-#MIDI_PD="/home/pi/Desktop/pdemo/MIDI.pd"
+MIDI_PD="/home/pi/Desktop/pdemo/MIDI.pd"
 #LOG="/home/pi/log"
 MIDI_KEY="Midiman"
 echo "+[SCPT]\tChecking for MIDI-Keyboard..."
