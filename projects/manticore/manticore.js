@@ -186,9 +186,11 @@ self.mach.on('message', function() {
 });
 
 self.requester.on('message', function(data) {
-	// console.log(':[DBUG]\tDealer: '+arguments.length);
-	// for (var k in arguments)
-	// 	console.log(arguments[k].toString());
+
+	console.log(':[DBUG]\tDealer: '+arguments.length);
+	for (var k in arguments)
+		console.log(arguments[k].toString());
+
 	switch (arguments.length) {
 		case 2:
 			var data = JSON.parse(arguments[1]);
@@ -370,14 +372,17 @@ Core.prototype.syncSend = function(dst, cmd, data, callback) {
 		socket.send(JSON.stringify(this.createMessage(cmd, data)));
 		console.log('+[SYNC]\tSending '+cmd+' with '+data.toString()+' to '+dst);
 
-		//size is in bytes
-		//size: '%s', Buffer.byteLength(data.toString(), 'utf8'),
-		log.info({data: '%s', data.toString(), src: '%s', self.ip, dst: '%s', dst},
-			'Sending synchronously data');
+		//console.log(':[DBUG]\tIn sync Send: ');
+		// console.log('Sending SYNC Data'+data.toString()+'with size'+Buffer.byteLength(data.toString(), 'utf8')+'bytes, From'+
+		// self.ip+'To'+dst);
+
+		// log.info({data: data.toString(), size: Buffer.byteLength(data.toString(), 'utf8'),
+		// src: self.ip, dst: dst}, 'Sending synchronously data');
 
 		socket.on('message', function(data) {
 			console.log('>[SYNC]\tReceived '+data.toString());
 			var msg = JSON.parse(data);
+			console.log("SOURCE OF THE MSG:", msg.header.src);
 			callback(msg.header, msg.payload);
 			socket.close();
 		});
@@ -490,6 +495,8 @@ function createAdvertisement(uuid)  {
  */
 Core.prototype.requestResource = function (res, port, client_ip, endpoint_ip, callback) {
 	var start = now()
+
+	console.log(':[DBUG]\tA resource is requested');
 
 	// Check validity of the request (port, resource)
 	var p = isValidPort(port) ? port : 16161;
