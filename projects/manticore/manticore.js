@@ -371,7 +371,8 @@ Core.prototype.syncSend = function(dst, cmd, data, callback) {
 		console.log('+[SYNC]\tSending '+cmd+' with '+data.toString()+' to '+dst);
 
 		//size is in bytes
-		log.info({data: '%s', data.toString(), size: '%s', Buffer.byteLength(data.toString(), 'utf8'), src: '%s', self.ip, dst: '%s', dst},
+		//size: '%s', Buffer.byteLength(data.toString(), 'utf8'),
+		log.info({data: '%s', data.toString(), src: '%s', self.ip, dst: '%s', dst},
 			'Sending synchronously data');
 
 		socket.on('message', function(data) {
