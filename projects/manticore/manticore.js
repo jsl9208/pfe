@@ -12,10 +12,10 @@ const MACH_PORT = 45454;
  */
 var bunyan = require('bunyan');
 var log = bunyan.createLogger({
-	name: 'requestslogger',
+	name: 'logging',
 	streams: [
 	{
-		level: 'info',
+		level: 'trace',
 		path: './log_requests.log'
 	}]
 });
@@ -124,6 +124,9 @@ Core.prototype.init = function() {
 	console.log('+[CORE]\tDetect sensors');
 	this.detectSensors();
 	this.emit('ready');
+
+
+
 	var end = now()
 	console.log("Time for init (ms)") 
 	console.log((end-start).toFixed(3))
@@ -370,19 +373,25 @@ Core.prototype.syncSend = function(dst, cmd, data, callback) {
 	if (dst !== null) {
 		socket.connect('tcp://'+dst+':'+MACH_PORT);
 		socket.send(JSON.stringify(this.createMessage(cmd, data)));
-		console.log('+[SYNC]\tSending '+cmd+' with '+data.toString()+' to '+dst);
 
-		//console.log(':[DBUG]\tIn sync Send: ');
-		// console.log('Sending SYNC Data'+data.toString()+'with size'+Buffer.byteLength(data.toString(), 'utf8')+'bytes, From'+
-		// self.ip+'To'+dst);
+		//A ENLEVER
+		//if (self.ip == null) self.ip = '127.0.0.1';
 
-		// log.info({data: data.toString(), size: Buffer.byteLength(data.toString(), 'utf8'),
-		// src: self.ip, dst: dst}, 'Sending synchronously data');
+		console.log('+[SYNC]\tSending '+cmd+' to '+dst+' with uuid '+data.data.toString()+' from '+ self.ip);
+
+		log.info({type: cmd.toUpperCase(), src: self.getNodeIpById(self.uuid), dst: dst}, 'Request data');
 
 		socket.on('message', function(data) {
 			console.log('>[SYNC]\tReceived '+data.toString());
 			var msg = JSON.parse(data);
-			console.log("SOURCE OF THE MSG:", msg.header.src);
+
+			//A ENLEVER
+			//if (self.ip == null) self.ip = '127.0.0.1';
+			//if (self.getNodeIpById(msg.header.src) == null) self.getNodeIpById(msg.header.src) = '127.0.0.1';
+
+			log.info({type: msg.header.type.toUpperCase(), dataStatus: msg.payload.status, sizeOfDataReceived: Buffer.byteLength(data.toString(), 'utf8'),
+			src: self.getNodeIpById(msg.header.src), dst: self.ip}, 'Received data');
+
 			callback(msg.header, msg.payload);
 			socket.close();
 		});
@@ -497,6 +506,7 @@ Core.prototype.requestResource = function (res, port, client_ip, endpoint_ip, ca
 	var start = now()
 
 	console.log(':[DBUG]\tA resource is requested');
+	//console.log(':[DBUG]\tRes\n'+ res); res=uuid sensor node
 
 	// Check validity of the request (port, resource)
 	var p = isValidPort(port) ? port : 16161;
@@ -520,6 +530,7 @@ Core.prototype.requestResource = function (res, port, client_ip, endpoint_ip, ca
 		console.log(type);
 		if (dst === this.ip) dst = '127.0.0.1';
 		if (endpoint_ip === null) endpoint_ip = client_ip;
+
 		this.syncSend(dst, 'request', this.requestPayload(res,p,endpoint_ip,type), function(header, payload) {
 			if (payload.status) {
 				var new_record = new Record(res, 'client_request', client_ip, endpoint_ip, port, self.nodes[i]);
