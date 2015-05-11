@@ -10,6 +10,16 @@ const MACH_PORT = 45454;
 /** 
  * Module dependencies
  */
+var bunyan = require('bunyan');
+var log = bunyan.createLogger({
+	name: 'requestslogger',
+	streams: [
+	{
+		level: 'info',
+		path: './log_requests.log'
+	}]
+});
+
 var uuid = require('uuid');
 var mdns = require('mdns');		// Zeroconf / mDNS / DNS-SD
 var zmq = require('zmq');		// ZeroMQ
@@ -27,7 +37,7 @@ var Sensor = require('./sensor.js');	// Sensor object
 var Record = require('./record.js');	// Record object
 
 /**
- * Core object
+ * Core objects
  *
  * @name		hostname of the current computer
  * @uuid		unique identifier of the current core process
@@ -359,6 +369,9 @@ Core.prototype.syncSend = function(dst, cmd, data, callback) {
 		socket.connect('tcp://'+dst+':'+MACH_PORT);
 		socket.send(JSON.stringify(this.createMessage(cmd, data)));
 		console.log('+[SYNC]\tSending '+cmd+' with '+data.toString()+' to '+dst);
+
+		log.info({data: '%s', data.toString(), size: '%s', data.toString().length, src: '%s', self.ip, dst: '%s', dst},
+			'Sending synchronously data');
 
 		socket.on('message', function(data) {
 			console.log('>[SYNC]\tReceived '+data.toString());
