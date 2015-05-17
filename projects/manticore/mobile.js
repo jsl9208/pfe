@@ -60,9 +60,9 @@ var udpPort = new osc.UDPPort({
 });
 
 // Listen for incoming OSC bundles.
-udpPort.on("message", function (oscBundle) {
-    console.log("An OSC bundle just arrived!", oscBundle);
-});
+//udpPort.on("message", function (oscBundle) {
+  //  console.log("An OSC bundle just arrived!",  oscBundle);
+//});
 
 // Open the socket.
 udpPort.open();
