@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="Manticore Monitoring">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        
+        <script src="../static/js/jquery.min.js"></script>
+        <script src="../static/js/bootstrap.min.js"></script>
+        <script src='../static/js/Chart.min.js'></script>
+        
+        <script src="../static/js/controller.js"></script>
+
+        <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../static/css/main.css">
+
+        <title>Manticore monitoring</title>
+
+    </head>
+
+    <body>
+      <div class="container">
+        <p id="dateOfToday" style="text-decoration: underline; text-indent: 50px;"></p>
+        <div class="col-md-6"> <!-- mettre col-md-4 si on en veut 2 sur la mm ligne seulement -->
+          <h3>Throughput</h3>
+          <div>
+            <canvas id="throughput" width="450" height="200"></canvas>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h3>Latency</h3>
+          <div>
+            <canvas id="latency" width="450" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="col-md-6">
+          <h3>Debit</h3>
+          <div>
+            <canvas id="debit" width="450" height="200"></canvas>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h3>Success Rate</h3>
+          <div>
+            <canvas id="success-rate" width="450" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+    </body>
+
+</html>
