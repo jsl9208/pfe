@@ -13,6 +13,19 @@ var Record = require('./record.js');
 var Sensor = require('./sensor.js');
 var request = require('request');
 
+/** 
+ * Module dependencies
+ */
+var bunyan = require('bunyan');
+var log = bunyan.createLogger({
+	name: 'logging',
+	streams: [
+	{
+		level: 'trace',
+		path: './log_requests.log'
+	}]
+});
+
 // view engine set up
 api.set('views', path.join(__dirname, 'web/views'));
 api.set('view engine', 'jade');
@@ -221,7 +234,11 @@ core.on('mach', function(envelope, header, payload) {
 				var new_record = new Record(payload.data, 'active_resource', header.src, dst, payload.port, core.itself);
 				var mode = (mode in payload) ? payload.mode : 'default';
 				var type = payload.type;
+				var src = header.src;
 				if (type == 'normal') {
+					console.log('Requested data (out of core) from' + header.src + 'to' + dst + ', log into file');
+					log.info({src: src, dst:dst}, 'Request data from inertial sensor (out of core)');
+
 					sensor.request(mode, opts, function(err, child) {
 						if (err === null) {
 							returnStatus = true;
@@ -230,12 +247,16 @@ core.on('mach', function(envelope, header, payload) {
 							}
 							core.records.push(new_record);
 						}
+						log.info({sensor_response: envelope}, 'Data received from inertial sensor (out of core)');
 						core.reply('ack', envelope, {status: returnStatus});
 					});		
 				}
 				else if (type == 'mobile') {
 					console.log('mobile request');
 					returnStatus = true;
+					console.log('Requested data (out of core) from' + header.src + 'to' + dst + ', log into file');
+					log.info({src: src, dst:dst}, 'Request data from mobile sensor (out of core)');
+
 					core.records.push(new_record);
 					core.reply('ack', envelope, {status: returnStatus});
 					request.post('http://localhost:8081/addRequester', {form: {
@@ -243,7 +264,12 @@ core.on('mach', function(envelope, header, payload) {
 						port: payload.port,
 						address: dst
 					}}, function(error) {
-						if (error) console.log('![REQ]' + error);
+						if (error) {
+							console.log('![REQ]' + error);
+						} else {
+							log.info({sensor_response: envelope}, 'Data received from mobile sensor (out of core)');
+						}
+
 					});
 					// core.mobileDevices[payload.data].tid = setInterval(function() {
 					// 	request.post('http://' + dst + ':' + payload.port + '/receive', {form: core.mobileDevices[payload.data].data});
