@@ -215,6 +215,15 @@ In this section, we will dive into the software configuration and implementation
 \subsection{Manticore}
 Manticore's implementation mainly uses Node.js and a few different libraries for network service discovery, socket abstraction and manipulation. Node.js is a platform built on Chrome's Javascript runtime for building, scalable network applications. There are several reasons why we decided to use Node.js for our Core. First of all, Node.js has been, over the past two years, gaining popularity amongst developers, even for applications not concerning web programming. It is thus a runtime environment on which a large array of efficient libraries are available like mdns (for the node discovery), ZeroMQ (for the communication pattern and socket) etc. Furthermore, Node.js runs on javascript, thus does not need any compilation, and is available across different platforms, which is one of the key aspects which has been important to us during the development. Indeed, the main objective of our framework is to make musicians or music programmers jobs easier by avoiding to hassle with technical issues. Being able to have a framework working on different kinds of machines, and nodes is a must. Another very important aspect of Node.js is its event driven paradigm. This way of working enables Node.js to operates on a single thread, using non blocking I/O, allowing it to support a huge amount of transactions. For our project, an event-driven approach would ultimately be more efficient as transactions would be executed only when an event is triggered, avoiding to have to use excessive amounts of CPU time. For example, with the mdns library for Node.js, when a new network service is up, it triggers an event to notify that a new service is up. It avoids to have a loop to continuously check if a new service is up. In the end, Node.js was chosen because its developing community is extensive, hence the number of efficient usable libraries is high.
 
+\subsection{Sensors}
+\subsubsection{Type of sensors}
+\begin{itemize}
+\item MIDI Keyboard : how does it works, what is it, how do we integrate it to the manticore ?
+
+\item Mobile devices such as tablets, smartphones (the main idea : Mobile crowdsensing) How does it work ? Examples of an event : a gig where the musician want some feedback from the crowd by using their smartphones / Multi platform iOS(phonegapp) + Android (native) / Implementation using websocket /Sending different kind of data
+\end{itemize}
+
+
 \subsection{End-user interface}
 
 We have implement two end-user interfaces, that is to say one in the form of externals for the media programming language Max/MSP and another in the form of web interfaces, thus usable on any kind of platform.
@@ -232,26 +241,18 @@ From a developer's point of view, Max is a modular program, using shared librari
 \subsubsection{Web interface}
 The web interface is a HTTP server running on the localhost, port 3000. It is a simple interface, which has the advantage of being accessible from a browser. It showcases the basic network information such as the nodes present on the network with their network information (IP address, hostname) and their associated sensors. This interface also enables the user to directly request a resource, and release it. Although this interface does not create endpoints, like the ``udpreceive" sockets in the Max/MSP client, they enable the user to use it like a universal client, which they can use with any other software.
 
-\subsection{Sensors}
-\subsubsection{Type of sensors}
-\begin{itemize}
-\item MIDI Keyboard : how does it works, what is it, how do we integrate it to the manticore ?
-
-\item Mobile devices such as tablets, smartphones (the main idea : Mobile crowdsensing) How does it work ? Examples of an event : a gig where the musician want some feedback from the crowd by using their smartphones / Multi platform iOS(phonegapp) + Android (native) / Implementation using websocket /Sending different kind of data
-\end{itemize}
-
-
-
 \subsection{Performance experimentations}
+What is the test environment? Requirement ?
+
 \subsubsection{Performances and latency}
 \begin{itemize}
- \item Latency when requesting a mobile from a pool of 20 sensors (graph, analysis)
- \item Latency when requesting an inertial sensor from a pool of 20 sensors (graph, analysis)
+ \item Latency when requesting a mobile from a pool of 20 sensors (graph + analysis)
+ \item Latency when requesting an inertial sensor from a pool of 20 sensors (graph + analysis)
  \item Making 20 requests in the same time (analysis)
- 	\item (Latency when moving the phone ?)
+ \item (Latency when moving the phone ? Not that relevant ?)
 
 \end{itemize}
-To test the performance of the Manticore, we record the time for a new node joining the network under different number of nodes in the network. As shown in fig.\ref{fig:data}, the average time of discovering, publishing/subscribing and finishing total procedures for a new node is increasing slowly as the growth of total nodes in the network, which demonstrates the scalability of Manticore.
+To test the performance of the Manticore, we record the time for a new node joining the network under different number of nodes in the network. As shown in fig	.\ref{fig:data}, the average time of discovering, publishing/subscribing and finishing total procedures for a new node is increasing slowly as the growth of total nodes in the network, which demonstrates the scalability of Manticore.
 
 \begin{figure}[htpb]
 	\centering
