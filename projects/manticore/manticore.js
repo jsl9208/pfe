@@ -29,7 +29,7 @@ var util = require('util'),		// extend the Core to be an EventEmitter
 var _ = require("underscore");
 var fs = require('fs');
 var os = require('os');
-var now = require("performance-now")
+var now = require("performance-now");
 
 
 var Node = require('./node.js');		// Node object
