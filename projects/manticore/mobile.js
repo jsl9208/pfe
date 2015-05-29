@@ -5,6 +5,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('request');
 var osc = require('osc');
+var dgram = require('dgram');
+var client = dgram.createSocket('udp4');
 var app = express();
 app.use("/", express.static(__dirname + "/web"));
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -117,9 +119,18 @@ app.post('/addRequester', function(req, res) {
 	req.body.data = [];
 	req.body.tid = setInterval(function() {
 		if (requesters[id][rid].data.length > 0) {
-			var data = requesters[id][rid].data.shift();
+			// var data = requesters[id][rid].data.shift();
+			var data = osc.writeBundle(requesters[id][rid].data.shift());
 			// request.post('http://' + addr + ':' + port, {form: data}, function(error) {});
-			udpPort.send(data, addr, port);
+			console.log(addr);
+			console.log(port);
+			// udpPort.send(data, addr, port);
+			client.send(data, 0, data.length, port, addr, function(err, bytes){
+				if (err) {
+        				throw err;
+				}
+			});
+
 		}
 	}, 100);
 	if (!requesters[req.body.id]) {
