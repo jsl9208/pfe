@@ -379,7 +379,7 @@ Core.prototype.syncSend = function(dst, cmd, data, callback) {
 
 		console.log('+[SYNC]\tSending '+cmd+' to '+dst+' with uuid '+data.data.toString()+' from '+ self.ip);
 
-		//log.info({type: cmd.toUpperCase(), src: self.getNodeIpById(self.uuid), dst: dst}, 'Request data');
+		log.info({type: cmd.toUpperCase(), src: self.getNodeIpById(self.uuid), dst: dst}, 'Request data');
 
 		socket.on('message', function(data) {
 			console.log('>[SYNC]\tReceived '+data.toString());
@@ -389,7 +389,7 @@ Core.prototype.syncSend = function(dst, cmd, data, callback) {
 			//if (self.ip == null) self.ip = '127.0.0.1';
 			//if (self.getNodeIpById(msg.header.src) == null) self.getNodeIpById(msg.header.src) = '127.0.0.1';
 
-			//log.info({type: msg.header.type.toUpperCase()}, 'Received data');
+			log.info({type: msg.header.type.toUpperCase()}, 'Received data');
 
 			callback(msg.header, msg.payload);
 			socket.close();

@@ -1,21 +1,21 @@
 #!/bin/sh
 
-
+#Gotta get the new link for node.js
 install_node() {
 	if hash node 2>/dev/null; then
 		echo "[INSTALL] Node JS already installed."
 	else
 		echo "[INSTALL] Installing Node JS..."
-		wget http://nodejs.org/dist/v0.10.28/node-v0.10.28.tar.gz
-		tar xvzf node-v0.10.28.tar.gz
-		cd node-v0.10.28
+		wget http://nodejs.org/dist/v0.12.4/node-v0.12.4.tar.gz
+		tar xvzf node-v0.12.4.tar.gz
+		cd node-v0.12.4
 		echo "[INSTALL] Go have a beer, this might take a while..."
 		./configure
 		make
 		sudo make install
 		sudo ldconfig
-		rm zeromq-node-v0.10.28.tar.gz
-		rm -rf node-v0.10.28
+		rm zeromq-node-v0.12.4.tar.gz
+		rm -rf node-v0.12.4
 	fi
 }
 
@@ -71,3 +71,28 @@ install(){
 
 
 install
+
+# Getting the repo from GitHub + installing all the node module
+echo "[INSTALL] Getting the GitHub Repo ...."
+git clone https://github.com/garnierclement/pfe
+echo "Moving to pfe/projects/manticore"
+cd pfe/projects/manticore
+echo "[INSTALL] Installing all the node modules...."
+npm install async
+npm install body-parser
+npm install bunyan
+npm install express
+npm install jade
+npm install mdns
+npm install osc
+npm install performance-now
+npm install request
+npm install underscore
+npm install uuid
+npm install websocket
+npm install ws
+npm install zmq
+echo "[Done] Let's run the project ...."
+
+
+
