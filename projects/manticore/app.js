@@ -65,7 +65,8 @@ core.on('ready', function() {
 		var resource = req.param('id');
 		var port = req.query.port || 16161;
 		var src = req.ip;
-		if (src === "127.0.0.1") { src = core.ip; } // if src is local then we want to send to the IP advertised on Bonjour
+		if (src === "127.0.0.1") { src = core.ip; } 
+		// if src is local then we want to send to the IP advertised on Bonjour
 		var dst = req.query.dst;
 		if (dst === "IP") { dst = src; }  // if dst not specified using the IP of the client
 		core.requestResource(resource, port, src, dst, function(err, header, payload) {
@@ -80,6 +81,8 @@ core.on('ready', function() {
 				console.log(err);
 			}
 		});
+
+
 	});
 
 	api.get('/release/:id', function(req, res) {
