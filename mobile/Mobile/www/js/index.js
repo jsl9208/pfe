@@ -72,22 +72,28 @@ var app = {
                     if (oscPort.readyState === oscPort.OPEN) {
                         oscPort.send({
                             timeTag: osc.timeTag(60), 
+                            // packets: [
+                            //     {
+                            //         address: "/acceleration/x",
+                            //         args: acceleration.x
+                            //     },
+                            //     {
+                            //         address: "/acceleration/y",
+                            //         args: acceleration.y
+                            //     },
+                            //     {
+                            //         address: "/acceleration/z",
+                            //         args: acceleration.z
+                            //     },
+                            //     {
+                            //         address: "/mobile/id",
+                            //         args: deviceID
+                            //     }
+                            // ]
                             packets: [
                                 {
-                                    address: "/acceleration/x",
-                                    args: acceleration.x
-                                },
-                                {
-                                    address: "/acceleration/y",
-                                    args: acceleration.y
-                                },
-                                {
-                                    address: "/acceleration/z",
-                                    args: acceleration.z
-                                },
-                                {
-                                    address: "/mobile/id",
-                                    args: deviceID
+                                    address: "/acceleration/id/x/y/z",
+                                    args: [deviceID, acceleration.x, acceleration.y, acceleration.z]
                                 }
                             ]
                         });
