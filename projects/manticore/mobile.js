@@ -34,7 +34,8 @@ wss.on("connection", function (socket) {
   });
   var id;
   socketPort.on("bundle", function (oscMsg) {
-    id = oscMsg.packets[3].args[0];
+    //id = oscMsg.packets[3].args[0];
+    id = oscMsg.packets[0].args[0];
     if (!table[id]) {
 	  	table[id] = 1;
 	  	request.post('http://127.0.0.1:3000/mobile', {form: {status: 1, id: id}}, function(error) {});
