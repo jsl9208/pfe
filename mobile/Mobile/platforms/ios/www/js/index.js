@@ -71,23 +71,29 @@ var app = {
                     $('.show').html('Acceleration X: ' + acceleration.x + '<br>' + 'Acceleration Y: ' + acceleration.y + '<br>' + 'Acceleration Z: ' + acceleration.z + '<br>' + 'Timestamp: '      + acceleration.timestamp + '<br>');
                     if (oscPort.readyState === oscPort.OPEN) {
                         oscPort.send({
-                            timeTag: osc.timeTag(60), 
+                            timeTag: osc.timeTag(10), // to be reduced __ 5/10ms - est-ce que ça va modifier la latence
+                            // packets: [
+                            //     {
+                            //         address: "/acceleration/x",
+                            //         args: acceleration.x
+                            //     },
+                            //     {
+                            //         address: "/acceleration/y",
+                            //         args: acceleration.y
+                            //     },
+                            //     {
+                            //         address: "/acceleration/z",
+                            //         args: acceleration.z
+                            //     },
+                            //     {
+                            //         address: "/mobile/id",
+                            //         args: deviceID
+                            //     }
+                            // ]
                             packets: [
                                 {
-                                    address: "/acceleration/x",
-                                    args: acceleration.x
-                                },
-                                {
-                                    address: "/acceleration/y",
-                                    args: acceleration.y
-                                },
-                                {
-                                    address: "/acceleration/z",
-                                    args: acceleration.z
-                                },
-                                {
-                                    address: "/mobile/id",
-                                    args: deviceID
+                                    address: "/acceleration/id/x/y/z",
+                                    args: [deviceID, acceleration.x, acceleration.y, acceleration.z]
                                 }
                             ]
                         });

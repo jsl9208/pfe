@@ -71,7 +71,7 @@ var app = {
                     $('.show').html('Acceleration X: ' + acceleration.x + '<br>' + 'Acceleration Y: ' + acceleration.y + '<br>' + 'Acceleration Z: ' + acceleration.z + '<br>' + 'Timestamp: '      + acceleration.timestamp + '<br>');
                     if (oscPort.readyState === oscPort.OPEN) {
                         oscPort.send({
-                            timeTag: osc.timeTag(60), 
+                            timeTag: osc.timeTag(10), // to be reduced __ 5/10ms - est-ce que ça va modifier la latence
                             // packets: [
                             //     {
                             //         address: "/acceleration/x",
@@ -91,9 +91,9 @@ var app = {
                             //     }
                             // ]
                             packets: [
-                                {
-                                    address: "/acceleration/id/x/y/z",
-                                    args: [deviceID, acceleration.x, acceleration.y, acceleration.z]
+                                
+                                    address: "/acceleration/x/y/z",
+                                    args: [acceleration.x, acceleration.y, acceleration.z]
                                 }
                             ]
                         });

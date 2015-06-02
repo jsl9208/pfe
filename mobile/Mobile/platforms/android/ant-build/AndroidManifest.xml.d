@@ -1,2 +1,2 @@
-/Users/mac/Projects/mobile_phone/Mobile/platforms/android/ant-build/AndroidManifest.xml : \
-/Users/mac/Projects/mobile_phone/Mobile/platforms/android/AndroidManifest.xml \
+/Users/thibaultfordeveaux/pfe/mobile/Mobile/platforms/android/ant-build/AndroidManifest.xml : \
+/Users/thibaultfordeveaux/pfe/mobile/Mobile/platforms/android/AndroidManifest.xml \
