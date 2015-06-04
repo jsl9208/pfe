@@ -17,21 +17,20 @@
  * under the License.
  */
 var app = {
-    // Application Constructor
     initialize: function() {
         this.bindEvents();
     },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
+/*    Bind Event Listeners
+    
+    Bind any events that are required on startup. Common events are:
+    'load', 'deviceready', 'offline', and 'online'.*/
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
+/*    deviceready Event Handler
+    
+    The scope of 'this' is the event. In order to call the 'receivedEvent'
+    function, we must explicitly call 'app.receivedEvent(...);'*/
     onDeviceReady: function() {
         $(function() {
             var deviceID = device.uuid;
@@ -42,54 +41,13 @@ var app = {
                 url: addr // URL to your Web Socket server.
             });
             oscPort.open();
-            // try {
-            //     setInterval(function() {
-            //         oscPort.send({
-            //             timeTag: osc.timeTag(60), // Schedules this bundle 60 seconds from now.
-            //             packets: [
-            //                 {
-            //                     address: "/carrier/frequency",
-            //                     args: 440
-            //                 },
-            //                 {
-            //                     address: "/carrier/amplitude",
-            //                     args: 0.5
-            //                 }
-            //             ]
-            //         });
-            //     }, 500);
-            // } catch (err) {
-            //     alert(err);
-            // }
-                
-            // var socket = new WebSocket(addr, 'manticore');
-
-            // var onopen = function() {
             setTimeout(function() {
-                // };
                 var onSuccess = function (acceleration) {
                     $('.show').html('Acceleration X: ' + acceleration.x + '<br>' + 'Acceleration Y: ' + acceleration.y + '<br>' + 'Acceleration Z: ' + acceleration.z + '<br>' + 'Timestamp: '      + acceleration.timestamp + '<br>');
                     if (oscPort.readyState === oscPort.OPEN) {
                         oscPort.send({
-                            timeTag: osc.timeTag(10), // to be reduced __ 5/10ms - est-ce que ça va modifier la latence
-                            // packets: [
-                            //     {
-                            //         address: "/acceleration/x",
-                            //         args: acceleration.x
-                            //     },
-                            //     {
-                            //         address: "/acceleration/y",
-                            //         args: acceleration.y
-                            //     },
-                            //     {
-                            //         address: "/acceleration/z",
-                            //         args: acceleration.z
-                            //     },
-                            //     {
-                            //         address: "/mobile/id",
-                            //         args: deviceID
-                            //     }
-                            // ]
+                            //a 60 pour test
+                            timeTag: osc.timeTag(60),
                             packets: [
                                 
                                     address: "/acceleration/x/y/z",
@@ -109,8 +67,6 @@ var app = {
                 };
                 var watchID = navigator.accelerometer.watchAcceleration(onSuccess, function() {}, { frequency: 200 });
             }, 1000);
-            
-            // socket.onopen = onopen;
         });
     },
 };
