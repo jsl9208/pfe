@@ -89,9 +89,8 @@ app.post('/addRequester', function(req, res) {
         				throw err;
 				}
 			});
-
 		}
-	}, 100);
+	}, 10);
 	if (!requesters[req.body.id]) {
 		requesters[req.body.id] = {};
 	}
