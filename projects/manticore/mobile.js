@@ -13,12 +13,24 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 var options = process.argv;
 
+var bunyan = require('bunyan');
+var logger = bunyan.createLogger({
+  name: 'logging',
+  streams: [
+  {
+    level: 'trace',
+    path: './log_requests.log'
+  }]
+});
+
+
 var port = options[3] ? options[3] : 8081;
-// var server = app.listen(port);
+
 var server = http.createServer(app).listen(port, function() {
     console.log((new Date()) + ' Server is listening on port ' + port);
 });
-// Listen for Web Socket requests.
+
+// CreateS a Server to listen for Web Socket requests
 var wss = new WebSocket.Server({
     server: server
 });
@@ -27,14 +39,17 @@ var dataQueue = {};
 var requesters = {};
 var table = {};
 
-// Listen for Web Socket connections.
+// Listen for incoming Web Socket connections
 wss.on("connection", function (socket) {
   var socketPort = new osc.WebSocketPort({
       socket: socket
   });
   var id;
-  socketPort.on("bundle", function (oscMsg) {
-    //id = oscMsg.packets[3].args[0];
+  socketPort.on("bundle", function (oscBundle) {
+    logger.info('OSC Bundle received from PhoneGap application in mobile.js');
+
+    log.info({type: cmd.toUpperCase(), src: self.getNodeIpById(self.uuid), dst: dst}, 'Request data');
+
     id = oscMsg.packets[0].args[0];
     if (!table[id]) {
 	  	table[id] = 1;
@@ -42,7 +57,8 @@ wss.on("connection", function (socket) {
     }
     if (requesters[id] != undefined) {
     	for (var rid in requesters[id]) {
-    		requesters[id][rid].data.push(oscMsg);
+    		requesters[id][rid].data.push(oscBundle);
+        logger.info('OSC Bundle transferred from mobile.js to manticore.js');
     	}
     }
   });
@@ -120,7 +136,7 @@ app.post('/addRequester', function(req, res) {
 	req.body.data = [];
 	req.body.tid = setInterval(function() {
 		if (requesters[id][rid].data.length > 0) {
-			// var data = requesters[id][rid].data.shift();
+      // writeBundle: takes a message or bundle object and packs it up into a Uint8Array or Buffer object
 			var data = osc.writeBundle(requesters[id][rid].data.shift());
 			// request.post('http://' + addr + ':' + port, {form: data}, function(error) {});
 			console.log(addr);
