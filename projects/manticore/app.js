@@ -16,15 +16,15 @@ var request = require('request');
 /** 
  * Module dependencies
  */
-var bunyan = require('bunyan');
-var log = bunyan.createLogger({
-	name: 'logging',
-	streams: [
-	{
-		level: 'trace',
-		path: './log_requests.log'
-	}]
-});
+//var bunyan = require('bunyan');
+//var log = bunyan.createLogger({
+//	name: 'logging',
+//	streams: [
+//	{
+//		level: 'trace',
+//		path: './log_requests.log'
+//	}]
+//});
 
 // view engine set up
 api.set('views', path.join(__dirname, 'web/views'));
@@ -240,7 +240,7 @@ core.on('mach', function(envelope, header, payload) {
 				var src = header.src;
 				if (type == 'normal') {
 					console.log('Requested data (out of core) from' + header.src + 'to' + dst + ', log into file');
-					log.info({src: src, dst:dst}, 'Request data from inertial sensor (out of core)');
+					//log.info({src: src, dst:dst}, 'Request data from inertial sensor (out of core)');
 
 					sensor.request(mode, opts, function(err, child) {
 						if (err === null) {
@@ -250,7 +250,7 @@ core.on('mach', function(envelope, header, payload) {
 							}
 							core.records.push(new_record);
 						}
-						log.info({sensor_response: envelope}, 'Data received from inertial sensor (out of core)');
+						//log.info({sensor_response: envelope}, 'Data received from inertial sensor (out of core)');
 						core.reply('ack', envelope, {status: returnStatus});
 					});		
 				}
@@ -258,7 +258,7 @@ core.on('mach', function(envelope, header, payload) {
 					console.log('mobile request');
 					returnStatus = true;
 					console.log('Requested data (out of core) from' + header.src + 'to' + dst + ', log into file');
-					log.info({src: src, dst:dst}, 'Request data from mobile sensor (out of core)');
+					//log.info({src: src, dst:dst}, 'Request data from mobile sensor (out of core)');
 
 					core.records.push(new_record);
 					core.reply('ack', envelope, {status: returnStatus});
@@ -272,7 +272,7 @@ core.on('mach', function(envelope, header, payload) {
 						if (error) {
 							console.log('![REQ]' + error);
 						} else {
-							log.info({sensor_response: envelope}, 'Data received from mobile sensor (out of core)');
+							//log.info({sensor_response: envelope}, 'Data received from mobile sensor (out of core)');
 						}
 
 					});

@@ -94,5 +94,11 @@ npm install ws
 npm install zmq
 echo "[Done] Let's run the project ...."
 
+echo "[INSTALL] Installing Hostapd/Udhcp...."
+sudo apt-get update
+sudo apt-get install hostapd
+sudo apt-get install udhcp
 
+
+echo "[INSTALL] Activating Wireless on the Cubieboard...."
 
