@@ -10,15 +10,15 @@ const MACH_PORT = 45454;
 /** 
  * Module dependencies
  */
-//var bunyan = require('bunyan');
-//var log = bunyan.createLogger({
-//	name: 'logging',
-//	streams: [
-//	{
-//		level: 'trace',
-//		path: './log_requests.log'
-//	}]
-//});
+var bunyan = require('bunyan');
+var log = bunyan.createLogger({
+	name: 'logging',
+	streams: [
+	{
+		level: 'trace',
+		path: './log_requests.log'
+	}]
+});
 
 var uuid = require('uuid');
 var mdns = require('mdns');		// Zeroconf / mDNS / DNS-SD
@@ -374,22 +374,16 @@ Core.prototype.syncSend = function(dst, cmd, data, callback) {
 		socket.connect('tcp://'+dst+':'+MACH_PORT);
 		socket.send(JSON.stringify(this.createMessage(cmd, data)));
 
-		//A ENLEVER
-		//if (self.ip == null) self.ip = '127.0.0.1';
-
 		console.log('+[SYNC]\tSending '+cmd+' to '+dst+' with uuid '+data.data.toString()+' from '+ self.ip);
 
-		//log.info({type: cmd.toUpperCase(), src: self.getNodeIpById(self.uuid), dst: dst}, 'Request data');
+		log.info({type: cmd.toUpperCase(), src: self.getNodeIpById(self.uuid), dst: dst}, 'Request data from Manticore');
 
 		socket.on('message', function(data) {
 			console.log('>[SYNC]\tReceived '+data.toString());
+			//On log avant le parse en JSON
+			log.info('Received data in Manticore, before Parse into JSON');
+
 			var msg = JSON.parse(data);
-
-			//A ENLEVER
-			//if (self.ip == null) self.ip = '127.0.0.1';
-			//if (self.getNodeIpById(msg.header.src) == null) self.getNodeIpById(msg.header.src) = '127.0.0.1';
-
-			//log.info({type: msg.header.type.toUpperCase()}, 'Received data');
 
 			callback(msg.header, msg.payload);
 			socket.close();
