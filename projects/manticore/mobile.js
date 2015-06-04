@@ -125,13 +125,13 @@ app.post('/addRequester', function(req, res) {
 			var data = osc.writeBundle(requesters[id][rid].data.shift());
 			// request.post('http://' + addr + ':' + port, {form: data}, function(error) {});
 			// udpPort.send(data, addr, port);
-client.send(data, 0, data.length, port, addr, function(err, bytes){
-if (err) {
-        throw err;
-}
-});
+            client.send(data, 0, data.length, port, addr, function(err, bytes){
+              if (err) {
+                throw err;
+              }
+            });
 		}
-	}, 100);
+	}, 10);
 	if (!requesters[req.body.id]) {
 		requesters[req.body.id] = {};
 	}
