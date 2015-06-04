@@ -47,7 +47,7 @@ var app = {
                     if (oscPort.readyState === oscPort.OPEN) {
                         oscPort.send({
                             //a 60 pour test
-                            timeTag: osc.timeTag(60),
+                            timeTag: osc.timeTag(0),
                             packets: [
                                 
                                     address: "/acceleration/x/y/z",
@@ -65,7 +65,7 @@ var app = {
                         oscPort.open()
                     }
                 };
-                var watchID = navigator.accelerometer.watchAcceleration(onSuccess, function() {}, { frequency: 200 });
+                var watchID = navigator.accelerometer.watchAcceleration(onSuccess, function() {}, { frequency: 20 });
             }, 1000);
         });
     },
