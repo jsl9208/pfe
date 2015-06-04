@@ -11,8 +11,18 @@ app.use("/", express.static(__dirname + "/web"));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 var options = process.argv;
-
 var port = options[3] ? options[3] : 8081;
+
+var bunyan = require('bunyan');
+var logger = bunyan.createLogger({
+  name: 'logging',
+  streams: [
+  {
+    level: 'trace',
+    path: './log_requests.log'
+  }]
+});
+
 var server = http.createServer(app).listen(port, function() {
     console.log((new Date()) + ' Server is listening on port ' + port);
 });
@@ -32,6 +42,7 @@ wss.on("connection", function (socket) {
   });
   var id;
   socketPort.on("bundle", function (oscMsg) {
+    logger.info('Received OSC Bundle in mobile.js');
     id = oscMsg.packets[0].args[0];
     if (!table[id]) {
 	  	table[id] = 1;
