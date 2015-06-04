@@ -257,11 +257,7 @@ core.on('mach', function(envelope, header, payload) {
 				else if (type == 'mobile') {
 					console.log('mobile request');
 					returnStatus = true;
-<<<<<<< Updated upstream
 					console.log('Requested data (out of core) from' + header.src + 'to' + dst + ', log into file');
-=======
-					//console.log('Requested data (out of core) from' + header.src + 'to' + dst + ', log into file');
->>>>>>> Stashed changes
 					//log.info({src: src, dst:dst}, 'Request data from mobile sensor (out of core)');
 
 					core.records.push(new_record);
@@ -275,16 +271,9 @@ core.on('mach', function(envelope, header, payload) {
 					}}, function(error) {
 						if (error) {
 							console.log('![REQ]' + error);
-<<<<<<< Updated upstream
 						} else {
 							//log.info({sensor_response: envelope}, 'Data received from mobile sensor (out of core)');
 						}
-=======
-						} 
-						//else {
-						// 	log.info({sensor_response: envelope}, 'Data received from mobile sensor (out of core)');
-						// }
->>>>>>> Stashed changes
 
 					});
 					// core.mobileDevices[payload.data].tid = setInterval(function() {

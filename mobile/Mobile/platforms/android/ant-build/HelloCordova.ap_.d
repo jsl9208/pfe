@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 /Users/thibaultfordeveaux/pfe/mobile/Mobile/platforms/android/ant-build/HelloCordova.ap_ \
  : /Users/thibaultfordeveaux/pfe/mobile/Mobile/platforms/android/res/drawable/icon.png \
 /Users/thibaultfordeveaux/pfe/mobile/Mobile/platforms/android/res/drawable-hdpi/icon.png \
@@ -50,56 +49,3 @@
 /Users/thibaultfordeveaux/pfe/mobile/Mobile/platforms/android/assets/www/plugins/org.apache.cordova.device-motion/www/Acceleration.js \
 /Users/thibaultfordeveaux/pfe/mobile/Mobile/platforms/android/assets/www/plugins/org.apache.cordova.device-motion/www/accelerometer.js \
 /Users/thibaultfordeveaux/pfe/mobile/Mobile/platforms/android/ant-build/AndroidManifest.xml \
-=======
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/HelloCordova.ap_ \
- : /Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/drawable/icon.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/drawable-hdpi/icon.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/drawable-land-hdpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/drawable-land-ldpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/drawable-land-mdpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/drawable-land-xhdpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/drawable-ldpi/icon.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/drawable-mdpi/icon.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/drawable-port-hdpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/drawable-port-ldpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/drawable-port-mdpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/drawable-port-xhdpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/drawable-xhdpi/icon.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/values/strings.xml \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/res/xml/config.xml \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/res/drawable/icon.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/res/drawable-hdpi/icon.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/res/drawable-land-hdpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/res/drawable-land-ldpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/res/drawable-land-mdpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/res/drawable-land-xhdpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/res/drawable-ldpi/icon.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/res/drawable-mdpi/icon.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/res/drawable-port-hdpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/res/drawable-port-ldpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/res/drawable-port-mdpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/res/drawable-port-xhdpi/screen.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/res/drawable-xhdpi/icon.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/_where-is-www.txt \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/cordova.js \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/cordova_plugins.js \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/css \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/img \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/index.html \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/js \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/plugins \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/css/index.css \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/img/logo.png \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/js/index.js \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/js/jquery.min.js \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/js/osc-browser.min.js \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/plugins/org.apache.cordova.device \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/plugins/org.apache.cordova.device-motion \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/plugins/org.apache.cordova.device/www \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/plugins/org.apache.cordova.device/www/device.js \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/plugins/org.apache.cordova.device-motion/www \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/plugins/org.apache.cordova.device-motion/www/Acceleration.js \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/assets/www/plugins/org.apache.cordova.device-motion/www/accelerometer.js \
-/Users/ghitatazi/GitHub/pfe_Test/mobile/Mobile/platforms/android/ant-build/AndroidManifest.xml \
->>>>>>> Stashed changes

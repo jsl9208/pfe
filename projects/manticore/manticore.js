@@ -374,27 +374,22 @@ Core.prototype.syncSend = function(dst, cmd, data, callback) {
 		socket.connect('tcp://'+dst+':'+MACH_PORT);
 		socket.send(JSON.stringify(this.createMessage(cmd, data)));
 
+		//A ENLEVER
+		//if (self.ip == null) self.ip = '127.0.0.1';
+
 		console.log('+[SYNC]\tSending '+cmd+' to '+dst+' with uuid '+data.data.toString()+' from '+ self.ip);
 
-<<<<<<< Updated upstream
 		//log.info({type: cmd.toUpperCase(), src: self.getNodeIpById(self.uuid), dst: dst}, 'Request data');
-=======
-		log.info({type: cmd.toUpperCase(), src: self.getNodeIpById(self.uuid), dst: dst}, 'Request data from Core');
->>>>>>> Stashed changes
 
 		socket.on('message', function(data) {
 			console.log('>[SYNC]\tReceived '+data.toString());
 			var msg = JSON.parse(data);
 
-<<<<<<< Updated upstream
 			//A ENLEVER
 			//if (self.ip == null) self.ip = '127.0.0.1';
 			//if (self.getNodeIpById(msg.header.src) == null) self.getNodeIpById(msg.header.src) = '127.0.0.1';
 
 			//log.info({type: msg.header.type.toUpperCase()}, 'Received data');
-=======
-			log.info({type: msg.header.type.toUpperCase()}, 'Received data in manticore.js');
->>>>>>> Stashed changes
 
 			callback(msg.header, msg.payload);
 			socket.close();
