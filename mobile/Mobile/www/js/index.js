@@ -46,9 +46,9 @@ var app = {
                     $('.show').html('Acceleration X: ' + acceleration.x + '<br>' + 'Acceleration Y: ' + acceleration.y + '<br>' + 'Acceleration Z: ' + acceleration.z + '<br>' + 'Timestamp: '      + acceleration.timestamp + '<br>');
                     if (oscPort.readyState === oscPort.OPEN) {
                         oscPort.send({
-                            timeTag: osc.timeTag(0),
+                            timeTag: osc.timeTag(10),
                             packets: [
-                                
+                                {
                                     address: "/acceleration/x/y/z",
                                     args: [acceleration.x, acceleration.y, acceleration.z]
                                 }
@@ -61,7 +61,7 @@ var app = {
                         oscPort = new osc.WebSocketPort({
                             url: addr // URL to your Web Socket server.
                         });
-                        oscPort.open();
+                        oscPort.open()
                     }
                 };
                 var watchID = navigator.accelerometer.watchAcceleration(onSuccess, function() {}, { frequency: 20 });
