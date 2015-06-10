@@ -109,15 +109,7 @@ function Sensor (type, id, desc, systems, constructor_cb)
 		// setting the sensor properties
 		self.id = id;
 		self.name = 'mobile device';
-<<<<<<< HEAD
-		self.data = [{name: 'X', osc: '/acceleration/x f'}, {name: 'Y', osc: '/acceleration/y f'}, {name: 'Z', osc: '/acceleration/z f'}, {name: 'Device ID', osc: '/mobile/id s'}];
-=======
-		// self.data = [{name: 'X', osc: '/acceleration/x f'},
-		// {name: 'Y', osc: '/acceleration/y f'},
-		// {name: 'Z', osc: '/acceleration/z f'},
-		// {name: 'Device ID', osc: '/mobile/id s'}];
-		self.data = [{name: 'Accelerometer_data', osc: '/acceleration/id/x/y/z s f f f'}];
->>>>>>> b5c8c1b1ab2d3cf6fb6e5884db21a420ad0e6b35
+		self.data = [{name: 'Accelerometer_data', osc: '/acceleration/x/y/z f f f'}];
 		self.request = function(mode, options, callback) {
 			callback(null, null);
 		};
