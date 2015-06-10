@@ -49,8 +49,8 @@ var app = {
                             timeTag: osc.timeTag(10),
                             packets: [
                                 {
-                                    address: "/acceleration/x/y/z",
-                                    args: [acceleration.x, acceleration.y, acceleration.z]
+                                    address: "/acceleration/id/x/y/z",
+                                    args: [deviceID, acceleration.x, acceleration.y, acceleration.z]
                                 }
                             ]
                         });

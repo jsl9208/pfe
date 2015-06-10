@@ -109,7 +109,7 @@ function Sensor (type, id, desc, systems, constructor_cb)
 		// setting the sensor properties
 		self.id = id;
 		self.name = 'mobile device';
-		self.data = [{name: 'Accelerometer_data', osc: '/acceleration/x/y/z f f f'}];
+		self.data = [{name: 'Accelerometer_data', osc: '/acceleration/id/x/y/z s f f f'}];
 		self.request = function(mode, options, callback) {
 			callback(null, null);
 		};
