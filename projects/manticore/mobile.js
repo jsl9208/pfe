@@ -90,7 +90,7 @@ app.post('/addRequester', function(req, res) {
 				}
 			});
 		}
-	}, 10);
+	}, 2);
 	if (!requesters[req.body.id]) {
 		requesters[req.body.id] = {};
 	}

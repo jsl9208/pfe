@@ -64,7 +64,7 @@ var app = {
                         oscPort.open()
                     }
                 };
-                var watchID = navigator.accelerometer.watchAcceleration(onSuccess, function() {}, { frequency: 20 });
+                var watchID = navigator.accelerometer.watchAcceleration(onSuccess, function() {}, { frequency: 5 });
             }, 1000);
         });
     },
