@@ -81,8 +81,8 @@ app.post('/addRequester', function(req, res) {
 			// var data = requesters[id][rid].data.shift();
 			var data = osc.writeBundle(requesters[id][rid].data.shift());
 			// request.post('http://' + addr + ':' + port, {form: data}, function(error) {});
-			console.log(addr);
-			console.log(port);
+//			console.log(addr);
+//			console.log(port);
 			// udpPort.send(data, addr, port);
 			client.send(data, 0, data.length, port, addr, function(err, bytes){
 				if (err) {
@@ -103,6 +103,7 @@ app.post('/removeRequester', function(req, res) {
 	var addr = req.body.address;
 	for (var i in requesters[req.body.id]) {
 		if (i.indexOf(addr) != -1) {
+//			console.log(requesters[req.body.id][i]);
 			clearInterval(requesters[req.body.id][i].tid);
 			delete requesters[req.body.id][i];
 		}

@@ -521,7 +521,7 @@ Core.prototype.requestResource = function (res, port, client_ip, endpoint_ip, ca
 			if (sensor.name == 'mobile device') type = 'mobile';
 		}
 		console.log(type);
-		if (dst === this.ip) dst = '127.0.0.1';
+		// if (dst === this.ip) dst = '127.0.0.1';
 		if (endpoint_ip === null) endpoint_ip = client_ip;
 
 		this.syncSend(dst, 'request', this.requestPayload(res,p,endpoint_ip,type), function(header, payload) {
@@ -557,7 +557,7 @@ Core.prototype.releaseResource = function (res, callback) {
 			correct = true;
 			var record = this.records[idx];
 			dst = record.node.ip;
-			if (dst === this.ip) { dst = "127.0.0.1"; }
+			// if (dst === this.ip) { dst = "127.0.0.1"; }
 			break;
 		}
 	}

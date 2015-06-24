@@ -12,7 +12,6 @@ var trigger = require('./trigger.js');
 var Record = require('./record.js');
 var Sensor = require('./sensor.js');
 var request = require('request');
-
 /** 
  * Module dependencies
  */
@@ -232,7 +231,7 @@ core.on('mach', function(envelope, header, payload) {
 			console.log(sensor);
 			if (sensor !== undefined) {
 				var dst = payload.dst;
-				if (dst === this.ip) dst = '127.0.0.1';
+				// if (dst === this.ip) dst = '127.0.0.1';
 				var opts = [dst, payload.port, header.src+'-'+payload.port+'.pd'];
 				var new_record = new Record(payload.data, 'active_resource', header.src, dst, payload.port, core.itself);
 				var mode = (mode in payload) ? payload.mode : 'default';
