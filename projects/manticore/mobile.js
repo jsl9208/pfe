@@ -97,3 +97,15 @@ app.post('/addRequester', function(req, res) {
 	requesters[req.body.id][rid] = req.body;
 	res.end('ok');
 });
+
+app.post('/removeRequester', function(req, res) {
+	var id = req.body.id;
+	var addr = req.body.address;
+	for (var i in requesters[req.body.id]) {
+		if (i.indexOf(addr) != -1) {
+			clearInterval(requesters[req.body.id][i].tid);
+			delete requesters[req.body.id][i];
+		}
+	}
+	res.end('ok');
+});

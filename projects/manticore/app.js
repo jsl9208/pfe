@@ -288,7 +288,14 @@ core.on('mach', function(envelope, header, payload) {
 			var record = _.findWhere(core.records, {type: 'active_resource', resource: payload.data, source: header.src});
 			var replyStatus = false;
 			if (record !== undefined) {
-				record.child.kill();
+				if (record.child)
+					record.child.kill();
+				else {
+					request.post('http://localhost:8081/removeRequester', {form: {
+						id: payload.data,
+						address: header.ip
+					}});
+				}
 				replyStatus = true;
 				var index = _.indexOf(core.records, record);
 				core.records.splice(index,1);
