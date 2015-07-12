@@ -154,6 +154,13 @@ core.on('ready', function() {
 		// core.mobileDevices[id].data = [req.body.x, req.body.y, req.body.z, req.body.timestamp];
 		res.end('ok');
 	});
+	
+	api.get('/restart', function (req, res) {
+		core.restart();
+		setTimeout(function () {
+			res.redirect('/');
+		}, 1000);
+	});
 	// setInterval(function() {
 	// 	for (var id in core.mobileDevices) {
 	// 		if (new Date().getTime() - core.mobileDevices[id].timestamp > 4000) {

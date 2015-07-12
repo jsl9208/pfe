@@ -36,6 +36,8 @@ var Node = require('./node.js');		// Node object
 var Sensor = require('./sensor.js');	// Sensor object
 var Record = require('./record.js');	// Record object
 
+
+
 /**
  * Core objects
  *
@@ -87,6 +89,58 @@ util.inherits(Core, EventEmitter);
 // Provide self for convenience within module
 var self = module.exports = new Core();
 
+Core.prototype.browserInit = function() {
+	/**
+	 * Handle the discovery of new _node._tcp service
+	 * (mDNS browser event)
+	 */
+	self.browser.on('serviceUp', function(service) {
+		var start = now()
+
+		console.log('+[mDNS]\tService up: '+service.name+' at '+service.addresses+' ('+service.networkInterface+')');
+
+		if(self.findNodeById(service.txtRecord.id) === false)
+		{
+			var new_node = new Node(service);
+			if (self.uuid != service.txtRecord.id) {
+				self.newSubscribe(new_node.ip);
+				self.delayedPublishSensors(1000);
+			}
+			else {
+				// node discovered itself
+				new_node.itself = true;
+				// register advertising ip, we should see ourself
+				self.ip = new_node.ip;
+				// link core.sensors with core.nodes[itself].sensors
+				new_node.sensors = self.sensors;
+				self.itself = new_node;
+			}
+			self.nodes.push(new_node);
+			console.log('+[CORE]\tAdding node id '+service.txtRecord.id);
+		}
+		else {
+			console.log('![CORE]\tNode id '+service.txtRecord.id+' is already present');
+		}
+		var end = now()
+		console.log("Time for detecting a new node and adding to the network(ms)") 
+		console.log((end-start).toFixed(3))
+	});
+	/**
+	 * Delete dead node from local node list when 'serviceDown'
+	 */
+	self.browser.on('serviceDown', function(service) {
+		console.log('-[mDNS]\tService down: '+service.name+' ('+service.networkInterface+')');
+		var deadNodeId = self.deleteDeadNode(service);
+		self.emit('died', deadNodeId);
+	});
+
+	/**
+	 * Handle mDNS browser errors
+	 */
+	self.browser.on('error', function(error) {
+		console.log('![mDNS]\tBrowser error: '+error);
+	});
+}
 /**
  * Initiliaze the Core singleton
  * Binding sockets, advertising and browsing for other _node._tcp cores
@@ -98,6 +152,7 @@ Core.prototype.init = function() {
 	var start = now()
 	console.log('+[CORE]\tCore starting on '+this.name+' at '+Date());
 	console.log('+[CORE]\tCore id '+this.uuid);
+	this.browserInit();
 	// bind local UDP socket
 	this.udp.bind(UDP_PORT, function() {
 		var address = self.udp.address();
@@ -231,41 +286,7 @@ self.udp.on('message', function(buffer, rinfo) {
 	console.log(buffer.toString());
 });
 
-/**
- * Handle the discovery of new _node._tcp service
- * (mDNS browser event)
- */
-self.browser.on('serviceUp', function(service) {
-	var start = now()
-	
-	console.log('+[mDNS]\tService up: '+service.name+' at '+service.addresses+' ('+service.networkInterface+')');
 
-	if(self.findNodeById(service.txtRecord.id) === false)
-	{
-		var new_node = new Node(service);
-		if (self.uuid != service.txtRecord.id) {
-			self.newSubscribe(new_node.ip);
-			self.delayedPublishSensors(1000);
-		}
-		else {
-			// node discovered itself
-			new_node.itself = true;
-			// register advertising ip, we should see ourself
-			self.ip = new_node.ip;
-			// link core.sensors with core.nodes[itself].sensors
-			new_node.sensors = self.sensors;
-			self.itself = new_node;
-		}
-		self.nodes.push(new_node);
-		console.log('+[CORE]\tAdding node id '+service.txtRecord.id);
-	}
-	else {
-		console.log('![CORE]\tNode id '+service.txtRecord.id+' is already present');
-	}
-	var end = now()
-	console.log("Time for detecting a new node and adding to the network(ms)") 
-	console.log((end-start).toFixed(3))
-});
 
 /**
  * Subscribe to new discovered node
@@ -277,22 +298,6 @@ Core.prototype.newSubscribe = function(peer) {
 	this.subscriber.subscribe('');
 	console.log('+[SUB]\tSubscribing to '+peer);
 };
-
-/**
- * Delete dead node from local node list when 'serviceDown'
- */
-self.browser.on('serviceDown', function(service) {
-	console.log('-[mDNS]\tService down: '+service.name+' ('+service.networkInterface+')');
-	var deadNodeId = self.deleteDeadNode(service);
-	self.emit('died', deadNodeId);
-});
-
-/**
- * Handle mDNS browser errors
- */
-self.browser.on('error', function(error) {
-	console.log('![mDNS]\tBrowser error: '+error);
-});
 
 /**
  * Get the name of the Core
@@ -315,13 +320,24 @@ Core.prototype.close = function(exit) {
 	this.subscriber.close();
 	this.requester.close();
 	this.udp.close();
-	if (typeof exit === "undefined")
-		process.exit();
 	var end = now()
 	console.log("Time for closing") 
 	console.log((end-start).toFixed(3))
+	if (typeof exit === "undefined")
+		process.exit();
 };
 
+Core.prototype.restart = function () {
+	this.browser.stop();
+	this.nodes = [];
+	this.browser = mdns.createBrowser(mdns.tcp(NODE_SERVICE));
+	this.browserInit();
+	this.browser.start();
+	this.advertiser.stop();
+	this.advertiser = createAdvertisement(this.uuid);
+	this.advertiser.start();
+	// this.advertiser.stop();
+}
 /**
  * [publish description]
  * @param  {[type]} data [description]
