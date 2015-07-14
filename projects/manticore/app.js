@@ -159,7 +159,7 @@ core.on('ready', function() {
 		core.restart();
 		setTimeout(function () {
 			res.redirect('/');
-		}, 2000);
+		}, 5000);
 	});
 	// setInterval(function() {
 	// 	for (var id in core.mobileDevices) {

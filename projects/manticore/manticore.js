@@ -404,6 +404,34 @@ Core.prototype.syncSend = function(dst, cmd, data, callback) {
 			callback(msg.header, msg.payload);
 			socket.close();
 		});
+		socket.on('error', function (err) {
+			console.log(err);
+			callback(null, null);
+			socket.close();
+		});
+	}
+	else {
+		throw 'send() to null IP';
+	}
+	var end = now()
+	console.log("Time for sending (ms)") 
+	console.log((end-start).toFixed(3))
+};
+
+Core.prototype.syncSendForKill = function(dst, cmd, data, callback) {
+		var start = now()
+
+	var socket = zmq.socket('req');
+	if (dst !== null) {
+		socket.connect('tcp://'+dst+':'+MACH_PORT);
+		socket.send(JSON.stringify(this.createMessage(cmd, data)));
+
+		console.log('+[SYNC]\tSending '+cmd+' to '+dst+' with uuid '+data.data.toString()+' from '+ self.ip);
+
+		log.info({type: cmd.toUpperCase(), src: self.getNodeIpById(self.uuid), dst: dst}, 'Request data from Manticore');
+		
+		socket.close();
+		callback(null, null);
 	}
 	else {
 		throw 'send() to null IP';
@@ -578,13 +606,16 @@ Core.prototype.releaseResource = function (res, callback) {
 		}
 	}
 	if (correct) {
-		this.syncSend(dst, 'release', this.releasePayload(res), function(header, payload) {
+		this.syncSendForKill(dst, 'release', this.releasePayload(res), function(header, payload) {
 			// remove the 'client_request' record
 			// need to think about the status from the ack
 			// now we erase the record all the time (either the release was successful or not)
 			var index = _.indexOf(self.records, record);
 			self.records.splice(index,1);
-			callback(null, header, payload);
+			if (header)
+				callback(null, header, payload);
+			else 
+				callback(true);
 		});
 	}
 	else {
