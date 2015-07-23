@@ -31,14 +31,16 @@ var cssObject, cssObject2;
 var planeMesh;
 var planeMesh2;
 var xPos, yPos;
-var imageSrcs = ['img/code-route/sign-1.png', 'img/code-route/sign-2.png', 'img/code-route/sign-3.png',
-                    'img/code-route/sign-4.png', 'img/code-route/sign-5.png', 'img/code-route/sign-6.png',
-                    'img/code-route/sign-7.png', 'img/code-route/sign-8.png', 'img/code-route/sign-9.png',
-                    'img/code-route/sign-10.png', 'img/code-route/sign-1.png', 'img/code-route/sign-2.png', 
-                    'img/code-route/sign-3.png', 'img/code-route/sign-4.png', 'img/code-route/sign-5.png', 
-                    'img/code-route/sign-6.png','img/code-route/sign-7.png', 'img/code-route/sign-8.png', 
-                    'img/code-route/sign-9.png', 'img/code-route/sign-10.png'];
-var composer, hblur, vblur;
+var imageSrcs = ['img/highway-traffic-icons/sign-1.png', 'img/highway-traffic-icons/sign-2.png',
+                 'img/highway-traffic-icons/sign-3.png', 'img/highway-traffic-icons/sign-4.png', 
+                 'img/highway-traffic-icons/sign-5.png', 'img/highway-traffic-icons/sign-6.png',
+                 'img/highway-traffic-icons/sign-7.png', 'img/highway-traffic-icons/sign-8.png', 
+                 'img/highway-traffic-icons/sign-9.png', 'img/highway-traffic-icons/sign-10.png', 
+                 'img/highway-traffic-icons/sign-1.png', 'img/highway-traffic-icons/sign-2.png', 
+                 'img/highway-traffic-icons/sign-3.png', 'img/highway-traffic-icons/sign-4.png', 
+                 'img/highway-traffic-icons/sign-5.png', 'img/highway-traffic-icons/sign-6.png', 
+                 'img/highway-traffic-icons/sign-7.png', 'img/highway-traffic-icons/sign-8.png', 
+                 'img/highway-traffic-icons/sign-9.png', 'img/highway-traffic-icons/sign-10.png'];
 
 var IPaddress = '192.168.42.1';
 var port = '8081';
@@ -128,11 +130,6 @@ function createRenderers() {
     cssRenderer.domElement.style.position = 'absolute';
     cssRenderer.domElement.style.top = '0';
     container.appendChild( cssRenderer.domElement );
-}
-
-function createScenes() {
-    scene = new THREE.Scene();
-    sceneCss = new THREE.Scene();
 }
 
 function animate() {

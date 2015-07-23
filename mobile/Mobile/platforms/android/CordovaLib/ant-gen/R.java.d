@@ -1,1 +1,1 @@
- : /Users/ghitatazi/Documents/SHANGHAI/PFE/pfe-master-UI/mobile/Mobile/platforms/android/CordovaLib/ant-build/AndroidManifest.xml \
+ : /Users/thibaultfordeveaux/pfe/mobile/Mobile/platforms/android/CordovaLib/ant-build/AndroidManifest.xml \

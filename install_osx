@@ -8,12 +8,10 @@ failure=1
 check_brew() {
 
     if hash brew 2>/dev/null; then
-    	echo "[INSTALL] Homebrew already installed. Checking for update..."
-       	brew update;
+    	echo "[INSTALL] Homebrew already installed. Checking for update...";
     else
     	echo "[INSTALL] Installing homebrew..."
-       	ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-		brew update
+       	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
 }
 
@@ -121,12 +119,28 @@ add_launchd() {
 
 	echo '[INSTALL] Started Manticore Daemon...'
 	sudo launchctl start /Library/LaunchDaemons/local.manticore.plist
-
-
-
 }
 
 install
+
+cd projects/manticore/
+npm install async
+npm install body-parser
+npm install bunyan
+npm install express
+npm install jade
+npm install mdns
+npm install osc
+npm install performance-now
+npm install request
+npm install underscore
+npm install uuid
+npm install websocket
+npm install ws
+npm install zmq
+echo '[INSTALL] Modules installed...'
+
+echo '[INSTALL] Manticore installed...'
 exit $success
 
 
