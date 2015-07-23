@@ -11,5 +11,5 @@
 ### END INIT INFO
 
 cd /Users/thibaultfordeveaux/pfe/projects/manticore/
-start http://localhost:3000/
+open http://localhost:3000/
 node app.js &
